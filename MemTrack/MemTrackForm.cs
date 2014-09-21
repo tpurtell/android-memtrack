@@ -112,6 +112,10 @@ namespace MemTrack
             _Activities.Clear();
         }
 
+        private string DeviceSelector
+        {
+            get { return _DeviceText.Text.Trim().Length > 0 ? string.Format("-s {0}", _DeviceText.Text) : ""; }
+        }
         async Task StartRecordingActivities()
         {
             try
@@ -124,7 +128,7 @@ namespace MemTrack
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
                     p.StartInfo.FileName = "adb.exe";
-                    p.StartInfo.Arguments = string.Format("shell dumpsys activity package {0}", _PackageText.Text);
+                    p.StartInfo.Arguments = string.Format("{1} shell dumpsys activity package {0}", _PackageText.Text, DeviceSelector);
                     p.Start();
                     var output = await p.StandardOutput.ReadToEndAsync();
                     var m = _ReResumedActivity.Match(output);
@@ -166,7 +170,7 @@ namespace MemTrack
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
                     p.StartInfo.FileName = "adb.exe";
-                    p.StartInfo.Arguments = string.Format("shell dumpsys meminfo {0}", _PackageText.Text);
+                    p.StartInfo.Arguments = string.Format("{1} shell dumpsys meminfo {0}", _PackageText.Text, DeviceSelector);
                     p.Start();
                     var output = await p.StandardOutput.ReadToEndAsync();
                     var when = (DateTime.Now - _Start).TotalSeconds;
@@ -228,11 +232,19 @@ namespace MemTrack
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = "adb.exe";
-            p.StartInfo.Arguments = string.Format("shell dumpsys meminfo {0}", _PackageText.Text);
+            int plat = (int)Environment.OSVersion.Platform;
+            if ((plat == 4) || (plat == 128))
+            {
+                p.StartInfo.FileName = "adb";
+            }
+            else
+            {
+                p.StartInfo.FileName = "adb.exe";
+            }
+            p.StartInfo.Arguments = string.Format("{1} shell dumpsys meminfo {0}", _PackageText.Text, DeviceSelector);
             p.Start();
             var output = await p.StandardOutput.ReadToEndAsync();
-            return !output.Contains("No process found");
+            return output.Contains("TOTAL");
         }
 
         public void RefreshData()
@@ -243,7 +255,7 @@ namespace MemTrack
         }
         private async void _PackageText_TextChanged(object sender, EventArgs e)
         {
-            _NotFoundLabel.Visible = _PackageText.Text.Trim().Length == 0 || !await CheckAlive();
+            await CheckForProcess();
         }
 
         private void _DirtyCheck_CheckedChanged(object sender, EventArgs e)
@@ -291,6 +303,16 @@ namespace MemTrack
                     }
                 }
             }
+        }
+
+        private async void _DeviceText_TextChanged(object sender, EventArgs e)
+        {
+            await CheckForProcess();
+        }
+
+        private async Task CheckForProcess()
+        {
+            _NotFoundLabel.Visible = _PackageText.Text.Trim().Length == 0 || !await CheckAlive();
         }
 
     }

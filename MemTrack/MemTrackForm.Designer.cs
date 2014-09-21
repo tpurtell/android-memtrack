@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this._MemoryChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -43,6 +43,8 @@
             this._DirtyCheck = new System.Windows.Forms.CheckBox();
             this._TrackActivities = new System.Windows.Forms.CheckBox();
             this._NotFoundLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this._DeviceText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this._MemoryChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -51,16 +53,16 @@
             // 
             // _MemoryChart
             // 
-            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
-            chartArea4.AxisX.Minimum = 0D;
-            chartArea4.AxisX.Title = "Seconds";
-            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
-            chartArea4.AxisY.Title = "Memory (MB)";
-            chartArea4.Name = "ChartArea1";
-            this._MemoryChart.ChartAreas.Add(chartArea4);
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            chartArea2.AxisX.Minimum = 0D;
+            chartArea2.AxisX.Title = "Seconds";
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            chartArea2.AxisY.Title = "Memory (MB)";
+            chartArea2.Name = "ChartArea1";
+            this._MemoryChart.ChartAreas.Add(chartArea2);
             this._MemoryChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend4.Name = "Legend1";
-            this._MemoryChart.Legends.Add(legend4);
+            legend2.Name = "Legend1";
+            this._MemoryChart.Legends.Add(legend2);
             this._MemoryChart.Location = new System.Drawing.Point(3, 3);
             this._MemoryChart.Name = "_MemoryChart";
             this._MemoryChart.Size = new System.Drawing.Size(767, 544);
@@ -93,6 +95,8 @@
             this.flowLayoutPanel1.Controls.Add(this._PackageText);
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this._FrequencySpinner);
+            this.flowLayoutPanel1.Controls.Add(this.label3);
+            this.flowLayoutPanel1.Controls.Add(this._DeviceText);
             this.flowLayoutPanel1.Controls.Add(this._DirtyCheck);
             this.flowLayoutPanel1.Controls.Add(this._TrackActivities);
             this.flowLayoutPanel1.Controls.Add(this._NotFoundLabel);
@@ -184,7 +188,7 @@
             // _DirtyCheck
             // 
             this._DirtyCheck.AutoSize = true;
-            this._DirtyCheck.Location = new System.Drawing.Point(3, 168);
+            this._DirtyCheck.Location = new System.Drawing.Point(3, 207);
             this._DirtyCheck.Name = "_DirtyCheck";
             this._DirtyCheck.Size = new System.Drawing.Size(71, 17);
             this._DirtyCheck.TabIndex = 6;
@@ -197,7 +201,7 @@
             this._TrackActivities.AutoSize = true;
             this._TrackActivities.Checked = true;
             this._TrackActivities.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._TrackActivities.Location = new System.Drawing.Point(3, 191);
+            this._TrackActivities.Location = new System.Drawing.Point(3, 230);
             this._TrackActivities.Name = "_TrackActivities";
             this._TrackActivities.Size = new System.Drawing.Size(99, 17);
             this._TrackActivities.TabIndex = 8;
@@ -209,11 +213,28 @@
             this._NotFoundLabel.AutoSize = true;
             this._NotFoundLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._NotFoundLabel.ForeColor = System.Drawing.Color.Crimson;
-            this._NotFoundLabel.Location = new System.Drawing.Point(3, 211);
+            this._NotFoundLabel.Location = new System.Drawing.Point(3, 250);
             this._NotFoundLabel.Name = "_NotFoundLabel";
             this._NotFoundLabel.Size = new System.Drawing.Size(111, 13);
             this._NotFoundLabel.TabIndex = 7;
             this._NotFoundLabel.Text = "No Process Found";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 165);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Device ID";
+            // 
+            // _DeviceText
+            // 
+            this._DeviceText.Location = new System.Drawing.Point(3, 181);
+            this._DeviceText.Name = "_DeviceText";
+            this._DeviceText.Size = new System.Drawing.Size(120, 20);
+            this._DeviceText.TabIndex = 11;
+            this._DeviceText.TextChanged += new System.EventHandler(this._DeviceText_TextChanged);
             // 
             // MemTrackForm
             // 
@@ -248,6 +269,8 @@
         private System.Windows.Forms.Label _NotFoundLabel;
         private System.Windows.Forms.CheckBox _TrackActivities;
         private System.Windows.Forms.Button _SaveImageButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox _DeviceText;
     }
 }
 
