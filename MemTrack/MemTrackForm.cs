@@ -127,7 +127,7 @@ namespace MemTrack
                     p.StartInfo.CreateNoWindow = true;
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.FileName = "adb.exe";
+                    p.StartInfo.FileName = AdbPath;
                     p.StartInfo.Arguments = string.Format("{1} shell dumpsys activity package {0}", _PackageText.Text, DeviceSelector);
                     p.Start();
                     var output = await p.StandardOutput.ReadToEndAsync();
@@ -170,7 +170,7 @@ namespace MemTrack
                     p.StartInfo.CreateNoWindow = true;
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.FileName = "adb.exe";
+                    p.StartInfo.FileName = AdbPath;
                     p.StartInfo.Arguments = string.Format("{1} shell dumpsys meminfo {0}", _PackageText.Text, DeviceSelector);
                     p.Start();
                     var output = await p.StandardOutput.ReadToEndAsync();
@@ -226,6 +226,15 @@ namespace MemTrack
                 _Recording = null;
             }
         }
+        private string AdbPath { 
+            get {
+                int plat = (int)Environment.OSVersion.Platform;
+                if ((plat == 4) || (plat == 128))
+                    return Environment.ExpandEnvironmentVariables("%HOME%/Library/Developer/Xamarin/android-sdk-mac_x86/platform-tools/adb");
+                else
+                    return "adb.exe";
+            }
+        }
 
         private async Task<bool> CheckAlive()
         {
@@ -233,15 +242,7 @@ namespace MemTrack
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            int plat = (int)Environment.OSVersion.Platform;
-            if ((plat == 4) || (plat == 128))
-            {
-                p.StartInfo.FileName = "adb";
-            }
-            else
-            {
-                p.StartInfo.FileName = "adb.exe";
-            }
+            p.StartInfo.FileName = AdbPath;
             p.StartInfo.Arguments = string.Format("{1} shell dumpsys meminfo {0}", _PackageText.Text, DeviceSelector);
             p.Start();
             var output = await p.StandardOutput.ReadToEndAsync();
