@@ -147,6 +147,7 @@ namespace MemTrack
                     if (resumed != null && resumed != last)
                         _Activities.Add(resumed);
                     last = resumed;
+                    await Task.Delay(TimeSpan.FromMilliseconds(50), _CancellationSource.Token);
                 }
             }
             catch (OperationCanceledException e)
